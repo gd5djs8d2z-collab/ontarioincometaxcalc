@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Ontario Income Tax Calculator 2026 — Federal + Ontario Breakdown | OntarioIncomeTaxCalc.ca</title>
+  <meta name="description" content="Understand exactly how your Ontario income tax is calculated. See every federal and Ontario bracket, your effective vs marginal rate, surtax, and Ontario Health Premium — all from 2026 CRA rates." />
+  <link rel="canonical" href="https://ontarioincometaxcalc.ca/" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍁</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Ontario Income Tax Calculator",
+    "url": "https://ontarioincometaxcalc.ca",
+    "description": "Bracket-by-bracket Ontario and federal income tax calculator. Shows effective vs marginal rate, Ontario surtax, OHP, CPP, and EI — all from current CRA rates.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" },
+    "creator": { "@type": "Organization", "name": "OntarioIncomeTaxCalc.ca", "url": "https://ontarioincometaxcalc.ca" }
+  }
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7744853829365165" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- ── Site Header ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">
+      <span class="logo-maple">🍁</span>
+      <span class="logo-text">Ontario Income<span>Tax</span>Calc.ca</span>
+    </a>
+    <nav class="site-nav">
+      <a href="faq.html">FAQ</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge" id="hero-badge">🇨🇦 <span id="hero-year"></span> CRA Rates · Federal + Ontario · Surtax Included</div>
+    <h1>How Much Ontario Income Tax Will You Pay?</h1>
+    <p id="hero-preamble">If your tax bill was higher than expected, or you want to understand why your raise barely changed your take-home, enter your annual income below. This tool shows every bracket, your effective rate, and the Ontario surtax — not just a number.</p>
+  </div>
+</section>
+
+<!-- ── Main Content ── -->
+<main class="main-content">
+
+  <!-- ── Section 1: Hero Calculator ── -->
+  <div class="calc-card" id="calculator">
+    <div class="calc-header">
+      <span class="calc-icon">📊</span>
+      <h2>Your Tax Breakdown</h2>
+    </div>
+
+    <div class="trust-strip">
+      <span class="ts-item"><span>✓</span> <strong id="trust-year"></strong> CRA rates</span>
+      <span class="ts-sep">·</span>
+      <span class="ts-item"><span>✓</span> Federal + Ontario</span>
+      <span class="ts-sep">·</span>
+      <span class="ts-item"><span>✓</span> Surtax + OHP</span>
+      <span class="ts-sep">·</span>
+      <span class="ts-item"><span>✓</span> CPP1 + CPP2 + EI</span>
+    </div>
+
+    <div class="calc-body">
+      <div class="input-group">
+        <label for="income-input">
+          Annual gross employment income
+          <span class="label-sub"> — Your total employment income before any deductions</span>
+        </label>
+        <div class="input-wrap input-wrap-dollar">
+          <span class="input-prefix">$</span>
+          <input
+            type="number"
+            id="income-input"
+            placeholder="e.g. 75000"
+            min="0"
+            max="9999999"
+            step="1000"
+            aria-label="Annual gross employment income"
+          />
+        </div>
+      </div>
+
+      <div class="input-options">
+        <button class="btn-link" id="toggle-hourly" type="button" onclick="toggleHourly()">+ Hourly worker? Calculate annual income</button>
+        <div id="hourly-panel" class="hourly-panel" style="display:none;">
+          <div class="hourly-row">
+            <div class="input-group-sm">
+              <label for="hourly-rate">Hourly rate ($)</label>
+              <input type="number" id="hourly-rate" placeholder="e.g. 22" min="0" step="0.01" />
+            </div>
+            <div class="input-group-sm">
+              <label for="hours-week">Hours/week</label>
+              <input type="number" id="hours-week" placeholder="e.g. 40" min="0" max="168" />
+            </div>
+            <div class="input-group-sm">
+              <label for="weeks-year">Weeks/year</label>
+              <input type="number" id="weeks-year" placeholder="e.g. 52" min="0" max="52" value="52" />
+            </div>
+            <button class="btn-sm" type="button" onclick="applyHourly()">Apply</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-calculate" id="btn-calculate" onclick="runTaxCalc()">
+        Calculate My Tax Breakdown
+      </button>
+
+      <!-- ── Section 2: Primary Result Card ── -->
+      <div id="results-section" class="results-section" aria-live="polite" style="display:none;">
+        <div class="results-divider"></div>
+        <div class="results-label" id="results-label">Your <span class="res-year"></span> Ontario Tax Estimate</div>
+
+        <div class="results-primary" id="results-primary"></div>
+
+        <div class="rates-row" id="rates-row"></div>
+
+        <div class="results-note">
+          ⚠️ Estimate only. Uses <span class="res-year"></span> CRA rates for Ontario employment income. Does not account for RRSP contributions, other credits, or investment income.
+          <a href="https://www.canada.ca/en/services/taxes/income-tax/personal-income-tax/get-ready-taxes.html" target="_blank" rel="noopener noreferrer">File officially at canada.ca →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad unit -->
+  <div class="ad-unit ad-inactive" aria-hidden="true">
+    <ins class="adsbygoogle"
+         data-ad-client="ca-pub-7744853829365165"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <!-- ── Section 3: Bracket Breakdown Tables ── -->
+  <section class="authority-section" id="bracket-breakdown">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>How Your Income Is Taxed, Bracket by Bracket</h2>
+    </div>
+    <p>Each bracket applies only to the income that falls within its range. No income is retroactively taxed at a higher rate when you cross a threshold.</p>
+
+    <div id="bracket-tables-container">
+      <div class="bracket-placeholder">Enter your income above to see your personal bracket breakdown.</div>
+    </div>
+  </section>
+
+  <!-- ── Section 4: Marginal vs Effective ── -->
+  <section class="authority-section" id="marginal-vs-effective">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Your Marginal Rate vs Your Effective Rate</h2>
+    </div>
+    <div id="marginal-effective-content">
+      <p>Your <strong>marginal rate</strong> is the rate on the next dollar you earn. Your <strong>effective rate</strong> is the average rate across your entire income. These are always different — and confusing them is the most common tax misconception in Canada.</p>
+      <p>Enter your income above to see both rates calculated from your actual numbers.</p>
+    </div>
+  </section>
+
+  <!-- Ad unit -->
+  <div class="ad-unit ad-inactive" aria-hidden="true">
+    <ins class="adsbygoogle"
+         data-ad-client="ca-pub-7744853829365165"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <!-- ── Section 5: Ontario Tax Explained ── -->
+  <section class="authority-section" id="ontario-tax-explained">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Ontario Tax Explained: Surtax and the Health Premium</h2>
+    </div>
+
+    <h3>The Ontario surtax</h3>
+    <p>The Ontario surtax triggers on your <em>basic Ontario tax</em> — not on your income. Once your basic Ontario tax (the amount before surtax) exceeds <span class="config-val" data-key="surtaxThreshold1"></span>, a 20% surtax applies to the amount above that threshold. If your basic Ontario tax exceeds <span class="config-val" data-key="surtaxThreshold2"></span>, an additional 36% surtax applies to the amount above that second threshold.</p>
+    <p>At the <span class="config-val" data-key="surtaxThreshold1"></span> trigger, your income is approximately $<span id="surtax-income-approx"></span>. Below that income level, the surtax does not apply at all — regardless of your bracket rate.</p>
+    <p class="formula-display">Surtax = 20% × max(0, basicOntarioTax − <span class="config-val" data-key="surtaxThreshold1"></span>) + 36% × max(0, basicOntarioTax − <span class="config-val" data-key="surtaxThreshold2"></span>)</p>
+
+    <h3>The Ontario Health Premium</h3>
+    <p>The OHP is collected at tax filing time — it does not appear as a line on your paycheque. It is based on your taxable income for the year and follows a band schedule capped at <span class="config-val" data-key="ohpMax"></span>. The premium applies starting at $20,000 of income and reaches its maximum above $200,600.</p>
+    <p class="source-cite">Source: <a href="https://www.ontario.ca/page/ontario-health-premium" target="_blank" rel="noopener noreferrer">ontario.ca — Ontario Health Premium</a> · <a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032on-jan/t4032on-january-general-information.html" target="_blank" rel="noopener noreferrer">CRA T4032-ON</a></p>
+  </section>
+
+  <!-- ── Section 6: Federal Tax Explained ── -->
+  <section class="authority-section" id="federal-tax-explained">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Federal Tax in <span class="res-year-static"></span>: The Rate Cut and the Basic Personal Amount</h2>
+    </div>
+
+    <h3>Why the bottom rate is 14%, not 15%</h3>
+    <p id="rate-change-note"></p>
+
+    <h3>The Basic Personal Amount credit</h3>
+    <p>The federal BPA is not a tax-free zone. It is a non-refundable credit. The full BPA of <span class="config-val" data-key="federalBPA"></span> generates a credit of <span class="config-val" data-key="federalBPACredit"></span> (<span class="config-val" data-key="federalBPA"></span> × <span class="config-val" data-key="federalCreditRate"></span>). That credit is subtracted from your calculated federal tax — it does not reduce the income that enters the brackets.</p>
+    <p>For incomes above <span class="config-val" data-key="bpaPhaseoutStart"></span>, the BPA begins to phase down. It reaches its base value of <span class="config-val" data-key="federalBPABase"></span> at <span class="config-val" data-key="bpaPhaseoutEnd"></span>.</p>
+    <p>Ontario has its own BPA: <span class="config-val" data-key="ontarioBPA"></span>, generating a credit of <span class="config-val" data-key="ontarioBPACredit"></span> (<span class="config-val" data-key="ontarioBPA"></span> × <span class="config-val" data-key="ontarioCreditRate"></span>).</p>
+
+    <p class="source-cite">Source: <a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html" target="_blank" rel="noopener noreferrer">CRA — Tax rates for individuals</a></p>
+  </section>
+
+  <!-- ── Section 7: Why Your Taxes Changed ── -->
+  <section class="authority-section" id="why-taxes-changed">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Why Did My Tax Go Up? The Raise and Overtime Questions</h2>
+    </div>
+
+    <h3>You got a raise — only the new portion is taxed more</h3>
+    <p>When your income crosses a bracket threshold, the higher rate applies only to the dollars above that threshold. Your existing income is never retroactively taxed at the new rate.</p>
+    <p>Example: Your salary increases from $58,000 to $65,000. You crossed the federal second bracket at <span class="config-val" data-key="fedBracket2Min"></span>. Only the <span class="config-val" data-key="crossoverAmount"></span> above that threshold is taxed at 20.5% — the rest stays at 14%. Your take-home pay increases with every dollar of the raise.</p>
+
+    <h3>Overtime pay looks over-taxed on the cheque</h3>
+    <p>Payroll software calculates source deductions by annualizing each pay period. If you earn a week of overtime, the software treats it as if you earn that amount every week — inflating the projected annual income and withholding at a higher rate. At year-end, the actual rate is correct. You typically receive a refund if overtime was a one-time event.</p>
+
+    <h3>A raise never reduces your take-home pay</h3>
+    <p>No bracket crossing makes your net income decrease. The highest-bracket rate applies only to the marginal dollars. Every dollar of gross income always adds to net income — the rate increases, but never by more than 100% of the increment.</p>
+  </section>
+
+  <!-- ── Section 8: CPP and EI ── -->
+  <section class="authority-section" id="cpp-ei-context">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>CPP and EI: Deductions That Reduce Your Tax</h2>
+    </div>
+
+    <h3>CPP1 and EI generate non-refundable tax credits</h3>
+    <p>Your CPP1 contributions and EI premiums are deducted from your employment income before income tax is calculated. They also generate non-refundable credits at the federal and Ontario lowest bracket rates — reducing your final tax liability further.</p>
+    <p>CPP1 maxes at <span class="config-val" data-key="cpp1Max"></span> (on earnings up to <span class="config-val" data-key="ympe"></span> minus the $3,500 basic exemption, at <span class="config-val" data-key="cpp1Rate"></span>). EI maxes at <span class="config-val" data-key="eiMax"></span> (on earnings up to <span class="config-val" data-key="eiMaxEarnings"></span>, at <span class="config-val" data-key="eiRate"></span>).</p>
+
+    <h3>CPP2 is different: it reduces income but generates no credit</h3>
+    <p>On earnings between <span class="config-val" data-key="ympe"></span> and <span class="config-val" data-key="yampe"></span>, you pay CPP2 at <span class="config-val" data-key="cpp2Rate"></span>, up to <span class="config-val" data-key="cpp2Max"></span>. Unlike CPP1, CPP2 contributions do not generate a non-refundable tax credit — they are simply deducted from gross income. This asymmetry means CPP2's tax benefit is smaller than CPP1's per dollar contributed.</p>
+
+    <h3>Are CPP and EI taxes?</h3>
+    <p>CPP contributions build your entitlement to CPP retirement, disability, and survivor benefits. EI premiums fund your entitlement to employment insurance benefits. Neither is a pure tax — both are insurance/pension contributions with defined benefit structures. The employer matches CPP at 1:1 and EI at 1.4:1.</p>
+
+    <p class="source-cite">Source: <a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032on-jan/t4032on-january-general-information.html" target="_blank" rel="noopener noreferrer">CRA T4032-ON 2026</a></p>
+  </section>
+
+  <!-- Ad unit -->
+  <div class="ad-unit ad-inactive" aria-hidden="true">
+    <ins class="adsbygoogle"
+         data-ad-client="ca-pub-7744853829365165"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <!-- ── Section 9: Example Calculations ── -->
+  <section class="authority-section" id="example-calculations">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h2>Three Real Tax Calculations</h2>
+    </div>
+
+    <!-- Example 1 -->
+    <div class="example-block" id="example-60k">
+      <h3>$60,000 — First-time filer, marketing coordinator, Toronto</h3>
+      <p>At $60,000, your income crosses into the second federal bracket mid-year but stays in the first Ontario bracket. The defining feature of this income level: most of the salary is taxed at the 14% federal rate, not the 20.5% rate that applies only to the $1,477 above the first federal bracket threshold.</p>
+      <div id="example-60k-table"></div>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="example-block" id="example-110k">
+      <h3>$110,000 — Senior professional, project manager, Ottawa</h3>
+      <p>At $110,000, two things happen that don't apply at $60,000: the income enters the third federal bracket (<span class="config-val" data-key="fedBracket3Label"></span>) for a portion, and the basic Ontario tax crosses the first surtax threshold, triggering the 20% Ontario surtax on that excess. The combined effect makes the effective rate jump noticeably compared to $100,000.</p>
+      <div id="example-110k-table"></div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="example-block" id="example-185k">
+      <h3>$185,000 — Executive, VP Operations, Mississauga</h3>
+      <p>At $185,000, the federal 29% bracket applies to the portion of income — after CPP and EI — that exceeds <span class="config-val" data-key="fedBracket4Min"></span>. The Ontario surtax applies fully at both tiers. OHP reaches <span class="config-val" data-key="ohpAt185k"></span>. The federal BPA begins its phase-down above <span class="config-val" data-key="bpaPhaseoutStart"></span>.</p>
+      <div id="example-185k-table"></div>
+    </div>
+  </section>
+
+  <!-- ── Section 10: FAQ ── -->
+  <section class="authority-section" id="faq-inline">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>Specific Tax Questions</h2>
+    </div>
+
+    <div class="faq-item">
+      <h3 class="faq-q">I got a raise to $60,000 — will I take home less money?</h3>
+      <div class="faq-a">
+        <p>No. The second federal bracket (<span class="config-val" data-key="fedBracket2Rate"></span>) applies only to the income above <span class="config-val" data-key="fedBracket2Min"></span>. If your previous salary was $58,000 and your new salary is $60,000, only the $1,477 above the bracket threshold is taxed at 20.5% instead of 14%. That incremental difference is approximately $96 more in federal tax on the full raise — not a reduction in take-home pay on the salary below $58,523. Your after-tax pay increases with every dollar of the raise.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h3 class="faq-q">What is the Ontario surtax and who pays it?</h3>
+      <div class="faq-a">
+        <p>The Ontario surtax is an additional levy on your basic Ontario tax — not on your income. It triggers when your basic Ontario tax exceeds <span class="config-val" data-key="surtaxThreshold1"></span>. At that threshold, the corresponding income is roughly $<span id="surtax-faq-income"></span>. The 20% surtax applies to the basic Ontario tax above that amount; if your basic Ontario tax also exceeds <span class="config-val" data-key="surtaxThreshold2"></span>, an additional 36% applies to that higher excess. Most Ontario earners below $80,000 pay zero surtax.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h3 class="faq-q">Why do I pay more tax than a colleague in Quebec with the same salary?</h3>
+      <div class="faq-a">
+        <p>Ontario and Quebec have different provincial tax structures. Ontario's five brackets range from 5.05% to 13.16%, but Ontario also levies a surtax and the Ontario Health Premium that Quebec does not. Quebec has higher provincial rates at lower incomes but allows deductions Ontario does not. The federal tax is identical in both provinces; the difference is entirely provincial. At $75,000, the Ontario-Quebec difference in total provincial tax is typically $1,000–$2,500 depending on credits claimed.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h3 class="faq-q">Is CPP a tax or a contribution?</h3>
+      <div class="faq-a">
+        <p>CPP is a mandatory contribution to a defined-benefit pension plan — not a tax. Your CPP1 contributions (up to <span class="config-val" data-key="cpp1Max"></span> in <span class="config-val" data-key="taxYear"></span>) accumulate entitlements that pay out as retirement income, disability benefits, and survivor benefits. The contribution rate (<span class="config-val" data-key="cpp1Rate"></span>) and ceiling (<span class="config-val" data-key="ympe"></span>) are set annually by the federal government. Unlike income tax, CPP contributions have a defined return: your CPP pension at 65 is directly related to your contribution history.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h3 class="faq-q">What is the Ontario Health Premium and why isn't it on my paycheque?</h3>
+      <div class="faq-a">
+        <p>The OHP is an Ontario provincial levy collected through the tax return — not through payroll. It does not appear on your T4 or paycheque stub. The OHP applies based on your taxable income for the full year, ranging from $0 under $20,000 to a maximum of <span class="config-val" data-key="ohpMax"></span> above $200,600. You pay it when filing your Ontario return. If you are surprised by an OHP balance owing, it is because the annual calculation was not reflected in payroll withholding.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <h3 class="faq-q">My employer withholds tax at source — will I owe more at tax time?</h3>
+      <div class="faq-a">
+        <p>Whether you owe more at tax time comes down to whether your employer's source deduction matched your actual annual income. CRA uses annualized withholding based on your regular pay period. If you had a bonus, irregular overtime, or multiple employers in the same year, the total withholding may fall short of what you actually owe — potentially by hundreds of dollars. RRSP contributions, deductible union dues, or other credits can go the other way and produce a refund. The most reliable approach: run the full calculation at your actual year-end income to check before April.</p>
+      </div>
+    </div>
+
+    <p class="faq-more">More tax questions answered on the <a href="faq.html">full FAQ page →</a></p>
+  </section>
+
+  <!-- Ad unit -->
+  <div class="ad-unit ad-inactive" aria-hidden="true">
+    <ins class="adsbygoogle"
+         data-ad-client="ca-pub-7744853829365165"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <!-- ── Section 11: Methodology ── -->
+  <section class="authority-section" id="methodology">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2>How This Calculator Works</h2>
+    </div>
+
+    <p>Rates current for tax year <span class="res-year-static"></span>. Last updated: <span id="last-updated"></span>.</p>
+
+    <h3>Federal income tax</h3>
+    <p>Progressive bracket application on employment income minus CPP1 and EI. Federal Basic Personal Amount credit applied at the lowest federal bracket rate. Formula: <code>BPA × creditRate</code>. CPP1 and EI each generate additional non-refundable credits at the same rate.</p>
+
+    <h3>Ontario provincial tax</h3>
+    <p>Progressive bracket application on the same taxable income (after CPP1 and EI). Ontario BPA credit applied at Ontario's lowest rate. Ontario surtax formula: <code>0.20 × max(0, basicOntarioTax − threshold1) + 0.36 × max(0, basicOntarioTax − threshold2)</code>. Surtax is applied to basic Ontario tax, not to income.</p>
+
+    <h3>Ontario Health Premium</h3>
+    <p>Computed from the OHP band schedule using gross income. Not a payroll deduction. Effective rate formula: <code>(federalTax + ontarioTax + surtax + OHP) / grossIncome</code>.</p>
+
+    <h3>CPP and EI</h3>
+    <p>CPP1 on <code>(income − $3,500) × 5.95%</code>, capped at max CPP1. CPP2 on earnings between YMPE and YAMPE at 4.00%, capped at max CPP2. CPP2 is not deductible for tax credit purposes. EI on earnings up to maximum insurable earnings at the premium rate, capped at the annual maximum.</p>
+
+    <h3>Known limitations</h3>
+    <p>This calculator estimates income tax on employment income only. It does not account for: RRSP contributions, childcare deductions, union dues, eligible/non-eligible dividends, capital gains, rental income, self-employment income, or provincial tax credits beyond the BPA and CPP/EI credits. Results are estimates — not official CRA determinations.</p>
+
+    <h3>Sources</h3>
+    <ul class="source-list">
+      <li><a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032on-jan/t4032on-january-general-information.html" target="_blank" rel="noopener noreferrer">CRA T4032-ON — Payroll Deductions Tables (January 2026)</a></li>
+      <li><a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032on-july/t4032on-july-general-information.html" target="_blank" rel="noopener noreferrer">CRA T4032-ON — Payroll Deductions Tables (July 2025)</a></li>
+      <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html" target="_blank" rel="noopener noreferrer">CRA — Tax rates and income brackets for individuals</a></li>
+      <li><a href="https://www.canada.ca/en/employment-social-development/news/2025/09/canada-employment-insurance-commission-sets-the-2026-employment-insurance-premium-rate.html" target="_blank" rel="noopener noreferrer">ESDC — 2026 EI Premium Rate Announcement</a></li>
+      <li><a href="https://www.ontario.ca/page/ontario-health-premium" target="_blank" rel="noopener noreferrer">ontario.ca — Ontario Health Premium schedule</a></li>
+    </ul>
+  </section>
+
+  <!-- ── Section 12: Related Calculators ── -->
+  <section class="related-section" id="related-calculators">
+    <h2 class="related-heading">Related Canadian Calculators</h2>
+    <div id="network-related-calculators" class="related-grid"></div>
+    <div class="related-manual">
+      <a href="https://ontariotakehomecalc.ca" class="related-card" target="_blank" rel="noopener noreferrer">
+        <div class="rc-name">OntarioTakeHomeCalc.ca</div>
+        <div class="rc-desc">See your full take-home pay including all payroll deductions</div>
+      </a>
+      <a href="https://cppcalc.ca" class="related-card" target="_blank" rel="noopener noreferrer">
+        <div class="rc-name">CPPCalc.ca</div>
+        <div class="rc-desc">Estimate your CPP contributions and projected retirement benefit</div>
+      </a>
+      <a href="https://eicalc.ca" class="related-card" target="_blank" rel="noopener noreferrer">
+        <div class="rc-name">EICalc.ca</div>
+        <div class="rc-desc">Check your EI eligibility and estimated weekly benefits</div>
+      </a>
+      <a href="https://calc-hq.ca" class="related-card" target="_blank" rel="noopener noreferrer">
+        <div class="rc-name">Calc-HQ.ca</div>
+        <div class="rc-desc">Canadian payroll, tax, and contribution calculators</div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <div id="network-footer"></div>
+</footer>
+
+<!-- ── Scripts: config MUST load before calculator ── -->
+<script src="js/config.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/ads.js"></script>
+<script src="js/network.js"></script>
+
+<script>
+(function () {
+  "use strict";
+
+  // ── Boot: populate config-sourced display values ───────────────────────────
+  var C = TAX_CONFIG;
+
+  // Set year in all year placeholders
+  document.querySelectorAll("#hero-year, #trust-year, .res-year, .res-year-static").forEach(function(el) {
+    el.textContent = C.taxYear;
+  });
+  document.getElementById("last-updated").textContent = C.lastUpdated;
+
+  // Rate change note
+  document.getElementById("rate-change-note").textContent = C.yearChangeNote;
+
+  // Surtax income approximation (rough: threshold1 / ontario bracket1 rate + ontario BPA)
+  // At basicOntarioTax = threshold1, approximate income ~$90k
+  var surtaxApproxIncome = "~90,000";
+  document.getElementById("surtax-income-approx").textContent = surtaxApproxIncome;
+  if (document.getElementById("surtax-faq-income")) {
+    document.getElementById("surtax-faq-income").textContent = surtaxApproxIncome;
+  }
+
+  // Populate .config-val elements
+  var configVals = {
+    surtaxThreshold1: fmtDollar(C.ontario.surtax.threshold1),
+    surtaxThreshold2: fmtDollar(C.ontario.surtax.threshold2),
+    ohpMax: fmtDollar(900),
+    federalBPA: fmtDollar(C.federal.bpa),
+    federalBPACredit: fmtDollar(Math.round(C.federal.bpa * C.federal.creditRate * 100) / 100),
+    federalBPABase: fmtDollar(C.federal.bpaBase),
+    federalCreditRate: (C.federal.creditRate * 100).toFixed(1) + "%",
+    ontarioBPA: fmtDollar(C.ontario.bpa),
+    ontarioBPACredit: fmtDollar(Math.round(C.ontario.bpa * C.ontario.creditRate * 100) / 100),
+    ontarioCreditRate: (C.ontario.creditRate * 100).toFixed(2) + "%",
+    bpaPhaseoutStart: fmtDollar(C.federal.bpaPhaseoutStart),
+    bpaPhaseoutEnd: fmtDollar(C.federal.bpaPhaseoutEnd),
+    cpp1Max: fmtDollar(C.cpp.maxContribution1),
+    cpp2Max: fmtDollar(C.cpp.maxContribution2),
+    cpp1Rate: (C.cpp.rate1 * 100).toFixed(2) + "%",
+    cpp2Rate: (C.cpp.rate2 * 100).toFixed(2) + "%",
+    ympe: fmtDollar(C.cpp.ympe),
+    yampe: fmtDollar(C.cpp.yampe),
+    eiMax: fmtDollar(C.ei.maxPremium),
+    eiMaxEarnings: fmtDollar(C.ei.maxInsurableEarnings),
+    eiRate: (C.ei.rate * 100).toFixed(2) + "%",
+    taxYear: String(C.taxYear),
+    fedBracket2Min: fmtDollar(C.federal.brackets[1].min),
+    fedBracket2Rate: (C.federal.brackets[1].rate * 100).toFixed(1) + "%",
+    fedBracket3Label: fmtDollar(C.federal.brackets[2].min) + " – " + fmtDollar(C.federal.brackets[3].min),
+    fedBracket4Min: fmtDollar(C.federal.brackets[3].min),
+    crossoverAmount: fmtDollar(65000 - C.federal.brackets[1].min),
+    ohpAt185k: fmtDollar(750),
+    ohpMax2: fmtDollar(900)
+  };
+
+  document.querySelectorAll(".config-val").forEach(function(el) {
+    var key = el.getAttribute("data-key");
+    if (configVals[key] !== undefined) el.textContent = configVals[key];
+  });
+
+  // Pre-render example calculations
+  renderExample("example-60k-table", OntarioTaxCalc.calculate(60000));
+  renderExample("example-110k-table", OntarioTaxCalc.calculate(110000));
+  renderExample("example-185k-table", OntarioTaxCalc.calculate(185000));
+
+  // ── Hourly toggle ──────────────────────────────────────────────────────────
+  window.toggleHourly = function() {
+    var p = document.getElementById("hourly-panel");
+    p.style.display = p.style.display === "none" ? "block" : "none";
+  };
+
+  window.applyHourly = function() {
+    var rate = parseFloat(document.getElementById("hourly-rate").value);
+    var hrs = parseFloat(document.getElementById("hours-week").value);
+    var wks = parseFloat(document.getElementById("weeks-year").value) || 52;
+    if (!isNaN(rate) && !isNaN(hrs)) {
+      document.getElementById("income-input").value = Math.round(rate * hrs * wks);
+      document.getElementById("hourly-panel").style.display = "none";
+    }
+  };
+
+  // ── Main Calculator ────────────────────────────────────────────────────────
+  window.runTaxCalc = function() {
+    var raw = document.getElementById("income-input").value;
+    var income = parseFloat(raw);
+    if (isNaN(income) || income < 0) {
+      alert("Please enter a valid annual income.");
+      document.getElementById("income-input").focus();
+      return;
+    }
+
+    var r = OntarioTaxCalc.calculate(income);
+    if (r.error) {
+      alert("Could not calculate tax. Please check your income amount.");
+      return;
+    }
+
+    renderPrimaryResults(r);
+    renderBracketTables(r);
+    renderMarginalEffective(r);
+
+    var section = document.getElementById("results-section");
+    section.style.display = "block";
+    section.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
+  document.getElementById("income-input").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") window.runTaxCalc();
+  });
+
+  // ── Primary Results ────────────────────────────────────────────────────────
+  function renderPrimaryResults(r) {
+    var primary = document.getElementById("results-primary");
+    var ratesRow = document.getElementById("rates-row");
+
+    // Update year labels
+    document.querySelectorAll(".res-year").forEach(function(el) { el.textContent = C.taxYear; });
+
+    var rows = [
+      { label: "Federal Income Tax", value: r.fmt(r.federalTax), sub: "Marginal: " + (r.marginalFederalRate * 100).toFixed(1) + "%" },
+      { label: "Ontario Provincial Tax", value: r.fmt(r.basicOntarioTax), sub: "Before surtax" },
+      { label: "Ontario Surtax", value: r.fmt(r.surtax), sub: r.surtaxApplies ? "Applied — see Section 5" : "Not applicable at this income", highlight: r.surtaxApplies },
+      { label: "Ontario Health Premium", value: r.fmt(r.ohp), sub: "Filed at tax time" },
+      { label: "Total Ontario Tax", value: r.fmt(r.totalOntarioTax), sub: "Provincial + Surtax + OHP", bold: true },
+      { label: "CPP1", value: r.fmt(r.cpp1), sub: (r.cpp.rate1 ? "" : "") + "Employee share" },
+      { label: "CPP2", value: r.fmt(r.cpp2), sub: r.cpp2 > 0 ? "No tax credit generated" : "Not applicable (income ≤ YMPE)" },
+      { label: "EI Premium", value: r.fmt(r.ei), sub: "Employee share" },
+      { label: "Total Deductions", value: r.fmt(r.totalDeductions), bold: true },
+      { label: "Estimated Net Income", value: r.fmt(r.netIncome), bold: true, highlight: true }
+    ];
+
+    primary.innerHTML = rows.map(function(row) {
+      return '<div class="result-row' + (row.bold ? " result-bold" : "") + (row.highlight ? " result-highlight" : "") + '">' +
+        '<span class="rr-label">' + row.label + '</span>' +
+        '<span class="rr-right"><span class="rr-value">' + row.value + '</span>' +
+        (row.sub ? '<span class="rr-sub">' + escHtml(row.sub) + '</span>' : '') +
+        '</span></div>';
+    }).join("");
+
+    ratesRow.innerHTML =
+      '<div class="rate-block">' +
+        '<div class="rate-label">Effective Tax Rate</div>' +
+        '<div class="rate-value">' + r.effectiveRate.toFixed(2) + '%</div>' +
+        '<div class="rate-sub">(Federal + Ontario) ÷ gross income</div>' +
+      '</div>' +
+      '<div class="rate-block">' +
+        '<div class="rate-label">Marginal Federal Rate</div>' +
+        '<div class="rate-value">' + (r.marginalFederalRate * 100).toFixed(1) + '%</div>' +
+        '<div class="rate-sub">Rate on next dollar earned</div>' +
+      '</div>' +
+      '<div class="rate-block">' +
+        '<div class="rate-label">Marginal Ontario Rate</div>' +
+        '<div class="rate-value">' + (r.marginalOntarioRate * 100).toFixed(1) + '%</div>' +
+        '<div class="rate-sub">Rate on next dollar earned</div>' +
+      '</div>';
+  }
+
+  // ── Bracket Breakdown Tables ───────────────────────────────────────────────
+  function renderBracketTables(r) {
+    var container = document.getElementById("bracket-tables-container");
+
+    var fedBPALine = '<tr class="bpa-row"><td colspan="3">Federal BPA credit</td><td>−' + r.fmt(r.federalBPACredit) + '</td><td></td></tr>';
+    var fedCPPLine = '<tr class="bpa-row"><td colspan="3">CPP1 credit</td><td>−' + r.fmt(r.federalCPP1Credit) + '</td><td></td></tr>';
+    var fedEILine  = '<tr class="bpa-row"><td colspan="3">EI credit</td><td>−' + r.fmt(r.federalEICredit) + '</td><td></td></tr>';
+
+    var onBPALine  = '<tr class="bpa-row"><td colspan="3">Ontario BPA credit</td><td>−' + r.fmt(r.ontarioBPACredit) + '</td><td></td></tr>';
+    var onCPPLine  = '<tr class="bpa-row"><td colspan="3">CPP1 credit</td><td>−' + r.fmt(r.ontarioCPP1Credit) + '</td><td></td></tr>';
+    var onEILine   = '<tr class="bpa-row"><td colspan="3">EI credit</td><td>−' + r.fmt(r.ontarioEICredit) + '</td><td></td></tr>';
+
+    container.innerHTML =
+      '<h3>Federal Brackets — Taxable income: ' + r.fmt(r.taxableIncome) + '</h3>' +
+      bracketTable(r.federalBracketRows) +
+      '<table class="bracket-tbl">' +
+        '<tbody>' + fedBPALine + fedCPPLine + fedEILine +
+        '<tr class="total-row"><td colspan="3"><strong>Federal Tax After Credits</strong></td><td colspan="2"><strong>' + r.fmt(r.federalTax) + '</strong></td></tr>' +
+        '</tbody></table>' +
+
+      '<h3 style="margin-top:2rem;">Ontario Brackets — Taxable income: ' + r.fmt(r.taxableIncome) + '</h3>' +
+      bracketTable(r.ontarioBracketRows) +
+      '<table class="bracket-tbl">' +
+        '<tbody>' + onBPALine + onCPPLine + onEILine +
+        '<tr class="total-row"><td colspan="3"><strong>Basic Ontario Tax</strong></td><td colspan="2"><strong>' + r.fmt(r.basicOntarioTax) + '</strong></td></tr>' +
+        (r.surtaxApplies ? '<tr class="surtax-row"><td colspan="3">+ Ontario Surtax</td><td colspan="2">+ ' + r.fmt(r.surtax) + '</td></tr>' : '<tr class="surtax-na-row"><td colspan="3">Ontario Surtax</td><td colspan="2">$0.00 — not applicable</td></tr>') +
+        '<tr class="total-row"><td colspan="3"><strong>Total Ontario Tax</strong></td><td colspan="2"><strong>' + r.fmt(r.totalOntarioTax) + '</strong></td></tr>' +
+        '</tbody></table>';
+  }
+
+  function bracketTable(rows) {
+    var head = '<thead><tr><th>Bracket</th><th>Rate</th><th>Income in bracket</th><th>Tax</th><th>Running total</th></tr></thead>';
+    var body = rows.map(function(b) {
+      var bracketLabel = fmtDollar(b.min) + " – " + (b.max === Infinity ? "above" : fmtDollar(b.max));
+      var active = b.incomeInBracket > 0;
+      return '<tr class="' + (active ? "bracket-active" : "bracket-inactive") + '">' +
+        '<td>' + bracketLabel + '</td>' +
+        '<td>' + (b.rate * 100).toFixed(1) + '%</td>' +
+        '<td>' + (active ? fmtDollar(b.incomeInBracket) : '—') + '</td>' +
+        '<td>' + (active ? fmtDollar(b.taxInBracket) : '$0.00') + '</td>' +
+        '<td>' + fmtDollar(b.cumulative) + '</td>' +
+        '</tr>';
+    }).join("");
+    return '<div class="bracket-scroll"><table class="bracket-tbl">' + head + '<tbody>' + body + '</tbody></table></div>';
+  }
+
+  // ── Marginal vs Effective Section ──────────────────────────────────────────
+  function renderMarginalEffective(r) {
+    var el = document.getElementById("marginal-effective-content");
+    var income = r.grossIncome;
+    el.innerHTML =
+      '<p>At <strong>' + r.fmt(income) + '</strong> annual income:</p>' +
+      '<ul>' +
+        '<li>Your <strong>effective tax rate</strong> is <strong>' + r.effectiveRate.toFixed(2) + '%</strong> — this is the percentage of your total income that goes to combined federal and Ontario tax.</li>' +
+        '<li>Your <strong>marginal federal rate</strong> is <strong>' + (r.marginalFederalRate * 100).toFixed(1) + '%</strong> — only income above ' + fmtDollar(C.federal.brackets.filter(function(b){return b.rate===r.marginalFederalRate;})[0].min) + ' is taxed at this rate.</li>' +
+        '<li>Your <strong>marginal Ontario rate</strong> is <strong>' + (r.marginalOntarioRate * 100).toFixed(1) + '%</strong> — only income above ' + fmtDollar(C.ontario.brackets.filter(function(b){return b.rate===r.marginalOntarioRate;})[0].min) + ' is taxed at this rate.</li>' +
+      '</ul>' +
+      '<p>If your income increased by ' + r.fmt(r.raiseAmount) + ':' +
+        '<ul>' +
+          '<li>Additional federal tax: <strong>' + r.fmt(r.marginalFedIncrease) + '</strong> (' + (r.marginalFederalRate * 100).toFixed(1) + '%)</li>' +
+          '<li>Additional Ontario tax: <strong>' + r.fmt(r.marginalOnIncrease) + '</strong> (' + (r.marginalOntarioRate * 100).toFixed(1) + '%)</li>' +
+          '<li>Total additional tax: <strong>' + r.fmt(r.marginalTotal) + '</strong> on a ' + r.fmt(r.raiseAmount) + ' raise</li>' +
+          '<li>Your take-home from the raise: <strong>' + r.fmt(r.raiseAmount - r.marginalTotal) + '</strong></li>' +
+        '</ul>' +
+      '</p>' +
+      '<p class="marginal-note">Your entire salary is <em>not</em> taxed at your marginal rate. Only the portion above the bracket threshold is.</p>';
+  }
+
+  // ── Example Tables ────────────────────────────────────────────────────────
+  function renderExample(containerId, r) {
+    var el = document.getElementById(containerId);
+    if (!el || !r || r.error) return;
+    el.innerHTML =
+      '<div class="example-summary">' +
+        '<div class="ex-row"><span>Gross income</span><span>' + r.fmt(r.grossIncome) + '</span></div>' +
+        '<div class="ex-row"><span>Federal tax</span><span>' + r.fmt(r.federalTax) + '</span></div>' +
+        '<div class="ex-row"><span>Ontario tax (basic)</span><span>' + r.fmt(r.basicOntarioTax) + '</span></div>' +
+        '<div class="ex-row"><span>Ontario surtax</span><span>' + r.fmt(r.surtax) + (r.surtaxApplies ? "" : " <em>(not applicable)</em>") + '</span></div>' +
+        '<div class="ex-row"><span>Ontario Health Premium</span><span>' + r.fmt(r.ohp) + '</span></div>' +
+        '<div class="ex-row"><span>CPP1</span><span>' + r.fmt(r.cpp1) + '</span></div>' +
+        '<div class="ex-row"><span>CPP2</span><span>' + r.fmt(r.cpp2) + (r.cpp2 === 0 ? " <em>(income ≤ YMPE)</em>" : " <em>(no tax credit)</em>") + '</span></div>' +
+        '<div class="ex-row"><span>EI</span><span>' + r.fmt(r.ei) + '</span></div>' +
+        '<div class="ex-row ex-total"><span>Total deductions</span><span>' + r.fmt(r.totalDeductions) + '</span></div>' +
+        '<div class="ex-row ex-net"><span>Net income</span><span>' + r.fmt(r.netIncome) + '</span></div>' +
+        '<div class="ex-row"><span>Effective tax rate</span><span>' + r.effectiveRate.toFixed(2) + '%</span></div>' +
+        '<div class="ex-row"><span>Marginal federal rate</span><span>' + (r.marginalFederalRate * 100).toFixed(1) + '%</span></div>' +
+        '<div class="ex-row"><span>Marginal Ontario rate</span><span>' + (r.marginalOntarioRate * 100).toFixed(1) + '%</span></div>' +
+      '</div>';
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  function fmtDollar(n) {
+    if (n === Infinity) return "∞";
+    return "$" + n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+})();
+</script>
+
+</body>
+</html>
