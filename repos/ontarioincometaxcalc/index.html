@@ -542,7 +542,7 @@
       { label: "Ontario Surtax", value: r.fmt(r.surtax), sub: r.surtaxApplies ? "Applied — see Section 5" : "Not applicable at this income", highlight: r.surtaxApplies },
       { label: "Ontario Health Premium", value: r.fmt(r.ohp), sub: "Filed at tax time" },
       { label: "Total Ontario Tax", value: r.fmt(r.totalOntarioTax), sub: "Provincial + Surtax + OHP", bold: true },
-      { label: "CPP1", value: r.fmt(r.cpp1), sub: (r.cpp.rate1 ? "" : "") + "Employee share" },
+      { label: "CPP1", value: r.fmt(r.cpp1), sub: "Employee share" },
       { label: "CPP2", value: r.fmt(r.cpp2), sub: r.cpp2 > 0 ? "No tax credit generated" : "Not applicable (income ≤ YMPE)" },
       { label: "EI Premium", value: r.fmt(r.ei), sub: "Employee share" },
       { label: "Total Deductions", value: r.fmt(r.totalDeductions), bold: true },
