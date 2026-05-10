@@ -745,3 +745,321 @@ code {
   .site-logo .logo-text { font-size: 0.82rem; }
   .related-grid, .related-manual { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SUPPORT PAGES — shared components for faq, about, contact, privacy-policy
+   These pages use the OntarioTakeHomeCalc framework class pattern.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ─── LAYOUT / CONTAINER (support pages) ─────────────────────────────────────── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── HEADER (support pages — wraps header-inner in .container) ──────────────── */
+/* .site-header already defined above; .header-inner already defined above.
+   Support pages add .container wrapper inside .site-header — already handled.
+   Add .logo and related aliases. */
+.logo {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.logo:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
+.logo-icon {
+  width: 30px;
+  height: 30px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.year-badge {
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.header-nav a {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.header-nav a:hover { color: #fff; text-decoration: none; }
+
+/* ─── PAGE HERO (support pages) ──────────────────────────────────────────────── */
+.page-hero {
+  background: var(--accent);
+  color: #fff;
+  padding: 28px 0 24px;
+  border-bottom: 3px solid var(--accent-mid);
+}
+.page-hero h1 {
+  font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.page-hero p {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.82);
+  max-width: 580px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ─── PAGE BODY (support pages) ──────────────────────────────────────────────── */
+.page-body {
+  max-width: var(--content-width);
+  margin: 32px auto;
+  padding: 0 24px;
+}
+.page-body h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 28px 0 10px;
+  letter-spacing: -0.01em;
+}
+.page-body h2:first-child { margin-top: 0; }
+.page-body h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 18px 0 8px;
+}
+.page-body p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+.page-body ul, .page-body ol {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+.page-body li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+.page-body a { font-size: inherit; }
+
+/* ─── INFO BOX ───────────────────────────────────────────────────────────────── */
+.info-box {
+  background: var(--accent-light);
+  border: 1px solid #b8d8c4;
+  border-left: 4px solid var(--accent-mid);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+.info-box a { font-size: 0.875rem; }
+
+/* ─── CONTACT FORM ───────────────────────────────────────────────────────────── */
+.contact-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin: 20px 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.contact-form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.contact-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.92rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--text-primary);
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent-mid);
+  box-shadow: 0 0 0 3px rgba(45,122,71,0.12);
+}
+.contact-form textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+/* ─── SUBMIT BUTTON (.calc-btn alias for contact form) ───────────────────────── */
+.calc-btn {
+  display: inline-block;
+  padding: 13px 28px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  text-align: center;
+}
+.calc-btn:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow);
+  color: #fff;
+  text-decoration: none;
+}
+.calc-btn:disabled {
+  background: var(--accent-mid);
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* ─── FOOTER (support pages — .container-wrapped .footer-grid) ───────────────── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 24px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.footer-brand .logo {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 10px;
+  display: block;
+}
+.footer-brand p {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.55;
+  max-width: 260px;
+}
+.footer-col h4 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+}
+.footer-col a {
+  display: block;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.82rem;
+  margin-bottom: 6px;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-col a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.more-tools-link {
+  display: block;
+  margin-bottom: 8px;
+}
+.more-tools-link > div:first-child {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.85);
+}
+.subtext {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.3;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  flex-wrap: wrap;
+}
+
+/* ─── OVERFLOW CONTAINMENT (global) ──────────────────────────────────────────── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+* { max-width: 100%; }
+img, table, pre, code, textarea, input { max-width: 100%; }
+table { table-layout: auto; }
+
+/* ─── RESPONSIVE — SUPPORT PAGES ────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .container { padding: 0 16px; }
+  .page-body { padding: 0 16px; margin: 24px auto; }
+  .page-hero { padding: 22px 0 18px; }
+  .page-hero h1 { font-size: 1.2rem; }
+  .page-hero p { font-size: 0.85rem; }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+  .header-nav { gap: 14px; }
+  .header-nav a { font-size: 0.8rem; }
+
+  .contact-form { padding: 16px; }
+}
+
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+  .footer-brand { grid-column: unset; }
+
+  .logo { font-size: 0.9rem; }
+  .logo-icon { width: 26px; height: 26px; font-size: 0.9rem; }
+  .year-badge { display: none; }
+  .header-nav { gap: 10px; }
+  .header-nav a { font-size: 0.75rem; }
+
+  .calc-btn { width: 100%; }
+}
