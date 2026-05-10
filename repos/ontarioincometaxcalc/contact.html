@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Ontario Income Tax Calculator</title>
+  <meta name="description" content="Contact ontarioincometaxcalc.ca for questions, corrections, or feedback about the Ontario take-home pay calculator.">
+  <link rel="canonical" href="https://ontarioincometaxcalc.ca/contact.html">
+  <link rel="stylesheet" href="css/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7744853829365165" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact | Ontario Income Tax Calculator",
+    "url": "https://ontarioincometaxcalc.ca/contact.html",
+    "description": "Contact the Ontario Income Tax Calculator team with questions or feedback.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Ontario Income Tax Calculator",
+      "url": "https://ontarioincometaxcalc.ca/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="logo"><span class="logo-icon">🍁</span> Ontario Income Tax Calculator <span class="year-badge">2026</span></a>
+      <nav class="header-nav">
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h1>Contact</h1>
+    <p>Questions, corrections, or feedback — we'd like to hear from you.</p>
+  </div>
+</section>
+
+<div class="page-body">
+
+  <h2>Get in Touch</h2>
+  <p>Use the form below to send us a message. We aim to respond within 2–3 business days. For general questions about Ontario tax rules, CPP, or EI, you may also find answers in our <a href="faq.html">FAQ</a>.</p>
+
+  <div class="info-box" style="margin-bottom:24px">
+    <p style="margin:0"><strong>Partnership inquiries:</strong> <a href="mailto:partnerships@calc-hq.ca">partnerships@calc-hq.ca</a></p>
+  </div>
+  <form class="contact-form" name="contact" onsubmit="handleContactSubmit(event)">
+    <div>
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+    </div>
+    <div>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+    </div>
+    <div>
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" placeholder="e.g. Rate correction, question about CPP2">
+    </div>
+    <div>
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Your message..." required></textarea>
+    </div>
+    <button type="submit" class="calc-btn">Send Message</button>
+  </form>
+
+  <h2>What We Can Help With</h2>
+  <ul>
+    <li>Corrections to tax rates or thresholds in the calculator</li>
+    <li>Clarification on how specific deductions are calculated</li>
+    <li>Reporting a bug or unexpected result</li>
+    <li>General feedback on the tool or site</li>
+    <li>Questions about the calc-hq.ca network</li>
+  </ul>
+
+  <h2>What We Cannot Help With</h2>
+  <p>We are not tax professionals and cannot provide personalized tax advice, payroll advice, or assist with your specific tax return. For those needs, please consult a Certified Professional Accountant (CPA) or use the CRA's official services at <a href="https://www.canada.ca/en/revenue-agency.html" target="_blank" rel="noopener">canada.ca</a>.</p>
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">🍁 Ontario Income Tax Calculator</div>
+        <p>Ontario take-home pay calculations for 2026. All calculations run in your browser. No data stored.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <a href="/">Calculator</a>
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+      <div class="footer-col">
+        <h4>More Tools</h4>
+        <a href="https://calc-hq.ca" class="more-tools-link" target="_blank" rel="noopener">
+          <div>Calc-HQ.ca</div>
+          <div class="subtext">Canadian payroll, tax, and contribution calculators</div>
+        </a>
+        <a href="mailto:partnerships@calc-hq.ca">partnerships@calc-hq.ca</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ontarioincometaxcalc.ca — Estimates only. Not financial or tax advice.</span>
+      <span>Tax Year: 2026 | Rates: CRA &amp; ESDC</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+function handleContactSubmit(e) {
+  e.preventDefault();
+  var form = e.target;
+  var btn = form.querySelector('button[type="submit"]');
+  btn.textContent = 'Message Sent';
+  btn.disabled = true;
+  form.reset();
+}
+</script>
+<script src="js/network.js"></script>
+<script src="js/ads.js"></script>
+</body>
+</html>
