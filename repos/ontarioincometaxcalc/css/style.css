@@ -1063,3 +1063,13 @@ table { table-layout: auto; }
 
   .calc-btn { width: 100%; }
 }
+
+/* ─── FOOTER EMAIL (CF-obfuscation resistant) ────────────────────────────────── */
+.footer-email {
+  display: block;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.78rem;
+  margin-top: 6px;
+  letter-spacing: 0.01em;
+  word-break: break-all;
+}
