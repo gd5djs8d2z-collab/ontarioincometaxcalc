@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About | Ontario Income Tax Calculator</title>
-  <meta name="description" content="About ontarioincometaxcalc.ca — a free, browser-based Ontario take-home pay calculator using current 2026 tax rates.">
+  <meta name="description" content="About Ontario Income Tax Calculator — bracket-by-bracket Ontario and federal income tax calculation, Ontario surtax methodology, marginal vs. effective rate explanation, and CPP2 credit treatment for 2026.">
   <link rel="canonical" href="https://ontarioincometaxcalc.ca/about.html">
   <link rel="stylesheet" href="css/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7744853829365165" crossorigin="anonymous"></script>
@@ -14,10 +14,10 @@
     "@type": "WebPage",
     "name": "About | Ontario Income Tax Calculator",
     "url": "https://ontarioincometaxcalc.ca/about.html",
-    "description": "About Ontario Income Tax Calculator — a free, browser-based Ontario take-home pay estimator using 2026 CRA tax rates.",
+    "description": "About Ontario Income Tax Calculator — bracket-by-bracket Ontario and federal tax calculation with Ontario surtax, marginal vs. effective rate breakdown, and 2026 CRA rates.",
     "isPartOf": {
       "@type": "WebSite",
-      "name": "Ontario Income Tax Calculator",
+        "name": "Ontario Income Tax Calculator",
       "url": "https://ontarioincometaxcalc.ca/"
     }
   }
@@ -42,40 +42,59 @@
 <section class="page-hero">
   <div class="container">
     <h1>About This Calculator</h1>
-    <p>A free, static, browser-based Ontario take-home pay estimator for 2026.</p>
+    <p>Ontario income tax calculated bracket by bracket — with surtax, CPP2 credit, and the 2026 federal rate structure.</p>
   </div>
 </section>
 
 <div class="page-body">
 
-  <h2>Purpose of This Tool</h2>
-  <p>ontarioincometaxcalc.ca is a free, public calculator designed to help Ontario employees quickly estimate their take-home pay based on their gross annual income. The calculator uses 2026 federal and provincial tax rates, CPP contribution rules, and EI premium rates as published by the Canada Revenue Agency and Employment and Social Development Canada.</p>
-  <p>The tool is intended for informational and planning purposes. It is most useful for employees comparing job offers, building a household budget, understanding what a raise means for their net pay, or learning how Canada's payroll deduction system works.</p>
+  <h2>What This Tool Actually Calculates</h2>
+  <p>This is an income tax calculator, not a generic salary estimator. The distinction matters. Most take-home pay tools blend all deductions into a single net figure. This calculator separates the income tax portion specifically — walking through each federal and Ontario provincial bracket at the 2026 rates, then adding the Ontario surtax where applicable, before combining with CPP and EI to produce a full deduction breakdown.</p>
+  <p>The result is a more transparent view of where your tax dollar goes: how much lands in each bracket, what your overall effective tax rate is, and how that compares to the marginal rate at the top of your income.</p>
 
-  <h2>How It Works</h2>
-  <p>This calculator runs entirely in your browser. You enter a gross annual income and select a pay frequency. The calculator applies the 2026 tax brackets, personal amounts, CPP rules, and EI rates and returns an estimated breakdown of all standard deductions, along with your estimated annual and per-period take-home pay.</p>
-  <p>All rates and thresholds are stored in a single central configuration file. The calculator logic, worked examples, and displayed values all reference the same source — there are no duplicated or conflicting values.</p>
+  <h2>Marginal Rate vs. Effective Rate</h2>
+  <p>One of the most common misunderstandings in Canadian personal finance is conflating the marginal tax rate with the effective rate. The marginal rate is the rate that applies to the last dollar earned — the highest bracket reached. The effective rate is total income tax paid divided by total income. For most Ontario residents, these two numbers are meaningfully different.</p>
+  <p>As an example: an Ontario employee earning $100,000 in 2026 falls into the 26% federal bracket on income above $111,733 — but they don't pay 26% on the whole amount. The first $57,375 is taxed at 14%, the next portion at 20.5%, and so on. This calculator shows both figures so the distinction is clear, not buried in a single net pay number.</p>
 
-  <h2>What This Tool Is Not</h2>
-  <p>This is not a tax preparation tool, a certified payroll calculator, or financial advice. Results are estimates only, based on basic personal amounts and standard employment assumptions. Actual payroll deductions from your employer may differ based on your TD1 elections, employer benefits, pension plans, union dues, RRSP contributions, or other deductions.</p>
-  <p>For precise payroll calculations or tax planning, consult a Certified Payroll Professional (CPM) or tax advisor, or use the CRA's official Payroll Deductions Online Calculator at canada.ca.</p>
+  <h2>Ontario Surtax</h2>
+  <p>Ontario imposes a surtax on top of provincial income tax once basic Ontario tax exceeds certain thresholds. In 2026, a 20% surtax applies when basic Ontario tax exceeds $5,554, and an additional 36% surtax layer applies when it exceeds $7,108. These thresholds are separate from the bracket structure and are often omitted from simple calculators.</p>
+  <p>This calculator computes the Ontario surtax as a distinct line item, so you can see its contribution to your provincial tax burden — particularly relevant for Ontario employees in mid-to-upper income ranges where surtax begins to meaningfully increase the effective provincial rate.</p>
 
-  <h2>Data and Privacy</h2>
-  <p>No data entered into this calculator is transmitted, stored, or logged anywhere. The tool operates entirely client-side in your browser. No account is required. No cookies are used for tracking. See our <a href="privacy-policy.html">Privacy Policy</a> for full details.</p>
+  <h2>CPP2 and the Credit Asymmetry</h2>
+  <p>Since 2024, CPP contributions have had a two-tier structure. CPP1 contributions on earnings up to the Year's Maximum Pensionable Earnings ($74,600 in 2026) generate a 15% federal non-refundable tax credit. CPP2 contributions on earnings between the YMPE and the Year's Additional Maximum Pensionable Earnings ($85,000 in 2026) also generate a tax credit — but at the same 15% rate, not the full deduction some payroll tools assume.</p>
+  <p>This asymmetry matters when calculating net income tax. The calculator handles CPP1 and CPP2 credits correctly and separately, which affects the final income tax figure for employees earning between roughly $74,600 and $85,000.</p>
 
-  <h2>Rates and Updates</h2>
-  <p>All tax rates, brackets, thresholds, and contribution limits used in this calculator are sourced from the Canada Revenue Agency and Employment and Social Development Canada for the 2026 tax year. The calculator will be updated when new rates are published for future tax years.</p>
-  <p>Sources include:</p>
+  <h2>How the Bracket Math Works</h2>
+  <p>You enter a gross annual income. The calculator applies both the 2026 federal tax schedule (five brackets from 14% to 33%) and the Ontario provincial schedule (five brackets from 5.05% to 13.16%) independently to that income, with the appropriate basic personal amount reducing taxable income in each jurisdiction. Federal and provincial taxes are calculated separately, then combined. The Ontario surtax is applied afterward to the provincial subtotal where triggered.</p>
+  <p>CPP contributions and EI premiums are computed against the same gross income and credited back against the federal tax owing. The final output shows both the gross deductions and the after-credit income tax for each category.</p>
+
+  <h2>Data Sources</h2>
+  <p>All rates, thresholds, and personal amounts used in this calculator come from 2026 CRA publications and the Ontario Ministry of Finance:</p>
   <ul>
-    <li>CRA — Federal income tax rates for individuals (2026)</li>
+    <li>CRA — Federal income tax rates and brackets (2026)</li>
+    <li>CRA — Federal basic personal amount ($16,129 for 2026)</li>
     <li>CRA — Ontario provincial income tax rates (2026)</li>
-    <li>CRA — CPP contribution rates, maximums and exemptions (2026)</li>
-    <li>ESDC — Employment Insurance premium rate and maximum insurable earnings (2026)</li>
+    <li>Ontario Ministry of Finance — Ontario basic personal amount and surtax thresholds</li>
+    <li>CRA — CPP1 YMPE ($74,600), CPP2 YAMPE ($85,000), and contribution rates</li>
+    <li>ESDC — EI premium rate ($1.63 per $100) and maximum insurable earnings ($68,900)</li>
     <li>Ontario Ministry of Finance — Ontario Health Premium schedule</li>
   </ul>
+  <p>This calculator is maintained by the <a href="https://calc-hq.ca" target="_blank" rel="noopener">Calc-HQ.ca</a> network — an independent Canadian financial utility publisher. Rate corrections or questions can be sent to <a href="mailto:partnerships@calc-hq.ca">partnerships@calc-hq.ca</a>.</p>
 
-  <h2>Network</h2>
-  <p>This tool is part of the <a href="https://calc-hq.ca" target="_blank" rel="noopener">calc-hq.ca</a> Canadian calculator network — a collection of free, browser-based financial utility tools for Canadian employees and taxpayers.</p>
+  <h2>Limitations</h2>
+  <p>Results are estimates based on standard employment assumptions and the 2026 basic personal amounts. The following are not modelled and will affect actual payroll results:</p>
+  <ul>
+    <li>TD1 claims beyond the basic personal amount (spousal amounts, disability, tuition, etc.)</li>
+    <li>RRSP contribution deductions</li>
+    <li>Union dues or professional fees</li>
+    <li>Employer pension contributions (RPP, DPSP)</li>
+    <li>Quebec-specific provincial rules (this tool applies Ontario rates only)</li>
+    <li>Investment income, rental income, or self-employment income</li>
+  </ul>
+  <p>For precise tax calculations, use the CRA's official tools at canada.ca or consult a qualified tax professional.</p>
+
+  <h2>Privacy</h2>
+  <p>No income figure you enter is transmitted, stored, or logged. All calculations run entirely in your browser. No account is required. See the <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
 
 </div>
 
@@ -84,7 +103,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="logo">🍁 Ontario Income Tax Calculator</div>
-        <p>Ontario take-home pay calculations for 2026. All calculations run in your browser. No data stored.</p>
+        <p>Bracket-by-bracket Ontario income tax calculation for 2026. Federal tax, Ontario tax, surtax, CPP, and EI — all in your browser.</p>
       </div>
       <div class="footer-col">
         <h4>Pages</h4>
