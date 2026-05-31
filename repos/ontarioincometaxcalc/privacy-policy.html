@@ -6,7 +6,7 @@
   <title>Privacy Policy | Ontario Income Tax Calculator</title>
   <meta name="description" content="Privacy policy for ontarioincometaxcalc.ca — how we handle data, cookies, advertising, and your rights as a visitor.">
   <link rel="canonical" href="https://ontarioincometaxcalc.ca/privacy-policy.html">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=ALIGN1">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7744853829365165" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
@@ -26,18 +26,31 @@
 <body>
 
 <header class="site-header">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="logo"><span class="logo-icon">🍁</span> Ontario Income Tax Calc <span class="year-badge">2026</span></a>
-      <nav class="header-nav">
-        <a href="index.html">Home</a>
-        <a href="faq.html">FAQ</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </div>
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">
+      <span class="logo-maple">🍁</span>
+      <span class="logo-text">OntarioIncome<span>Tax</span>Calc.ca</span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="faq.html">FAQ</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<!-- Mobile nav overlay -->
+<div class="mobile-nav-overlay" id="mobile-overlay"></div>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="faq.html">FAQ</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
 
 <section class="page-hero">
   <div class="container">
@@ -104,52 +117,70 @@
   <h2>13. Contact Us</h2>
   <p>If you have questions, concerns, or requests regarding this privacy policy or the handling of your personal information, please reach out through our <a href="contact.html">contact page</a> or email us at <span class="footer-email">partnerships&#64;calc&#45;hq&#46;ca</span>. We will respond to all privacy inquiries within a reasonable timeframe.</p>
 
+  <div class="info-box">
+    <a href="https://calc-hq.ca/methodology/ontario-income-tax/">Full methodology: Ontario Income Tax Calculator – Calc-HQ.ca</a>
+  </div>
+
 </div>
 
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="logo">🍁 Ontario Income Tax Calculator</div>
-        <p>Ontario take-home pay calculations for 2026. All calculations run in your browser. No data stored.</p>
+        <div class="logo">🍁 OntarioIncomeTaxCalc.ca</div>
+        <p>Ontario income tax calculations for 2026. All calculations run in your browser. No data stored.</p>
       </div>
       <div class="footer-col">
-        <h4>Pages</h4>
+        <h4>PAGES</h4>
         <a href="index.html">Home</a>
         <a href="faq.html">FAQ</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
       </div>
       <div class="footer-col">
-        <h4>Legal</h4>
+        <h4>LEGAL</h4>
         <a href="privacy-policy.html">Privacy Policy</a>
         <a href="disclaimer.html">Disclaimer</a>
         <a href="terms.html">Terms of Use</a>
       </div>
       <div class="footer-col">
         <h4>RELATED TOOLS</h4>
-        <a href="https://ontariotakehomecalc.ca" rel="noopener">OntarioTakeHomeCalc.ca — Estimate your Ontario net pay after all deductions</a>
-        <a href="https://cppcalc.ca" rel="noopener">CPPCalc.ca — Calculate your Canada Pension Plan contributions</a>
-        <a href="https://eicalc.ca" rel="noopener">EICalc.ca — Estimate your Employment Insurance premiums</a>
-        <a href="https://ontarioraisecalc.ca" rel="noopener">OntarioRaiseCalc.ca — Calculate the impact of a raise on your take-home pay</a>
-        <a href="https://marginaltaxcalc.ca" rel="noopener">MarginalTaxCalc.ca — Calculate your marginal tax rate in Ontario</a>
-      </div>
-      <div class="footer-col">
-        <h4>MORE TOOLS</h4>
-        <a href="https://calc-hq.ca" class="more-tools-link" target="_blank" rel="noopener noreferrer">
-          <span class="more-tools-title">Calc-HQ.ca</span>
-          <span class="subtext">Canadian payroll, tax, and contribution calculators</span>
-        </a>
+        <div id="related-tools"></div>
+        <a href="https://calc-hq.ca/" class="more-tools-link" rel="noopener"><strong>More Tools</strong> → Calc-HQ.ca</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 ontarioincometaxcalc.ca — Estimates only. Not financial or tax advice.</span>
-      <span>Tax Year: 2026 | Rates: CRA &amp; ESDC</span>
+      <span>© 2026 OntarioIncomeTaxCalc.ca — Part of the <a href="https://calc-hq.ca/" rel="noopener">Calc-HQ.ca</a> network</span>
+      <span>For informational purposes only. Not tax advice.</span>
     </div>
   </div>
 </footer>
 
 <script src="js/network.js"></script>
 <script src="js/ads.js"></script>
+<script>
+(function() {
+  var hamburger = document.querySelector('.hamburger');
+  var mobileNav = document.getElementById('mobile-nav');
+  var overlay = document.getElementById('mobile-overlay');
+  function toggleMenu() {
+    var isOpen = hamburger.classList.toggle('active');
+    mobileNav.classList.toggle('active', isOpen);
+    overlay.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    mobileNav.classList.remove('active');
+    overlay.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  if (hamburger) hamburger.addEventListener('click', toggleMenu);
+  if (overlay) overlay.addEventListener('click', closeMenu);
+  if (mobileNav) mobileNav.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+})();
+</script>
 </body>
 </html>

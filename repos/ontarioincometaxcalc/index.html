@@ -8,7 +8,7 @@
   <meta name="description" content="Understand exactly how your Ontario income tax is calculated. See every federal and Ontario bracket, your effective vs marginal rate, surtax, and Ontario Health Premium — all from 2026 CRA rates." />
   <link rel="canonical" href="https://ontarioincometaxcalc.ca/" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍁</text></svg>" />
-  <link rel="stylesheet" href="css/style.css?v=6abd34f" />
+  <link rel="stylesheet" href="css/style.css?v=ALIGN1" />
 
   <script type="application/ld+json">
   {
@@ -36,14 +36,26 @@
       <span class="logo-maple">🍁</span>
       <span class="logo-text">Ontario Income<span>Tax</span>Calc.ca</span>
     </a>
-    <nav class="site-nav">
+    <nav class="site-nav" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="faq.html">FAQ</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<!-- Mobile nav overlay -->
+<div class="mobile-nav-overlay" id="mobile-overlay"></div>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="faq.html">FAQ</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
 
 <!-- ── Hero ── -->
 <section class="hero">
@@ -383,6 +395,10 @@
 
 </main>
 
+<div class="info-box" style="max-width:960px;margin:0 auto 20px;padding:12px 20px;font-size:0.875rem;">
+  <a href="https://calc-hq.ca/methodology/ontario-income-tax/">Full methodology: Ontario Income Tax Calculator – Calc-HQ.ca</a>
+</div>
+
 <!-- ── Footer ── -->
 <footer class="site-footer">
   <div class="container">
@@ -406,22 +422,13 @@
       </div>
       <div class="footer-col">
         <h4>RELATED TOOLS</h4>
-        <a href="https://ontariotakehomecalc.ca" rel="noopener">OntarioTakeHomeCalc.ca — Estimate your Ontario net pay after all deductions</a>
-        <a href="https://cppcalc.ca" rel="noopener">CPPCalc.ca — Calculate your Canada Pension Plan contributions</a>
-        <a href="https://eicalc.ca" rel="noopener">EICalc.ca — Estimate your Employment Insurance premiums</a>
-        <a href="https://ontarioraisecalc.ca" rel="noopener">OntarioRaiseCalc.ca — Calculate the impact of a raise on your take-home pay</a>
-        <a href="https://marginaltaxcalc.ca" rel="noopener">MarginalTaxCalc.ca — Calculate your marginal tax rate in Ontario</a>
-      </div>
-      <div class="footer-col">
-        <h4>MORE TOOLS</h4>
-        <a href="https://calc-hq.ca" class="more-tools-link" target="_blank" rel="noopener noreferrer">
-          <span class="more-tools-title">Calc-HQ.ca</span>
-          <span class="subtext">Canadian payroll, tax, and contribution calculators</span>
-        </a>
+        <div id="related-tools"></div>
+        <a href="https://calc-hq.ca/" class="more-tools-link" rel="noopener"><strong>More Tools</strong> → Calc-HQ.ca</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 OntarioIncomeTaxCalc.ca — All calculations run in your browser. No data stored.</span>
+      <span>© 2026 OntarioIncomeTaxCalc.ca — Part of the <a href="https://calc-hq.ca/" rel="noopener">Calc-HQ.ca</a> network</span>
+      <span>For informational purposes only. Not tax advice.</span>
     </div>
   </div>
 </footer>
@@ -431,6 +438,31 @@
 <script src="js/calculator.js"></script>
 <script src="js/ads.js"></script>
 <script src="js/network.js"></script>
+
+<script>
+(function() {
+  var hamburger = document.querySelector('.hamburger');
+  var mobileNav = document.getElementById('mobile-nav');
+  var overlay = document.getElementById('mobile-overlay');
+  function toggleMenu() {
+    var isOpen = hamburger.classList.toggle('active');
+    mobileNav.classList.toggle('active', isOpen);
+    overlay.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    mobileNav.classList.remove('active');
+    overlay.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  if (hamburger) hamburger.addEventListener('click', toggleMenu);
+  if (overlay) overlay.addEventListener('click', closeMenu);
+  if (mobileNav) mobileNav.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+})();
+</script>
 
 <script>
 (function () {

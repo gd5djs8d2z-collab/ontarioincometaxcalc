@@ -1,31 +1,23 @@
-/* GA4 - Calc-HQ Network Analytics (single injection point) */
-(function(){if(!window.__GA4_LOADED){window.__GA4_LOADED=true;var id="G-W4SWZ1YRS2";var s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id="+id;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){window.dataLayer.push(arguments);}gtag("js",new Date());gtag("config",id);}})();
-/**
- * Ontario Income Tax Calc — CA Network Tools Registry
- * Source of truth for all related .ca calculator tools.
- * Only tools with live: true will be displayed.
- * This site must NOT include itself (filtered at render time).
- *
- * Hub: https://calc-hq.ca
- */
+// Related tools for the Ontario Income Tax Calculator footer
+// Injected by network.js — single source of truth for related tools
+(function() {
+  var tools = [
+    { name: 'Ontario Take-Home Pay Calculator', url: 'https://ontariotakehomecalc.ca/', desc: 'Net pay after all deductions' },
+    { name: 'Ontario Raise Calculator', url: 'https://ontarioraisecalc.ca/', desc: 'Tax impact of a salary increase' },
+    { name: 'Marginal Tax Calculator', url: 'https://marginaltaxcalc.ca/', desc: 'Marginal vs effective rate comparison' },
+    { name: 'CPP Calculator', url: 'https://cppcalc.ca/', desc: 'CPP1 + CPP2 contribution breakdown' },
+    { name: 'EI Calculator', url: 'https://eicalc.ca/', desc: 'EI premium calculation' },
+    { name: 'Commission Tax Calculator', url: 'https://ontariocommissiontaxcalc.ca/', desc: 'Tax on commission payments' },
+    { name: 'Bonus Tax Calculator', url: 'https://bonustaxcalc.ca/', desc: 'Tax on bonus/lump-sum payments' },
+    { name: 'Freelance Income Calculator', url: 'https://freelanceincomecalc.ca/', desc: 'Self-employment tax estimates' }
+  ];
 
-const NETWORK_TOOLS = [
-  {
-    name: "Ontario Take Home Calc",
-    desc: "Estimate your Ontario net pay after federal tax, provincial tax, CPP, EI, and OHP.",
-    url: "https://ontariotakehomecalc.ca",
-    live: true
-  },
-  {
-    name: "Ontario Raise Calc",
-    desc: "See exactly how a salary raise changes your Ontario take-home pay after all deductions.",
-    url: "https://ontarioraisecalc.ca",
-    live: true
-  },
-  {
-    name: "Marginal Tax Calc",
-    desc: "Find your Ontario marginal tax rate on additional income — federal + provincial brackets, CPP, EI, and surtax.",
-    url: "https://marginaltaxcalc.ca",
-    live: true
+  var container = document.getElementById('related-tools');
+  if (!container) return;
+
+  var html = '';
+  for (var i = 0; i < tools.length; i++) {
+    html += '<a href="' + tools[i].url + '" rel="noopener">' + tools[i].name + '</a>';
   }
-];
+  container.innerHTML = html;
+})();
