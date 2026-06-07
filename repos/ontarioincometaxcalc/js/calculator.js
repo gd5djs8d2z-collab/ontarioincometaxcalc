@@ -133,6 +133,16 @@
     return round2(ei * C.federal.creditRate);
   }
 
+  // ── Canada Employment Amount (CEA) Credit ────────────────────────────────
+  // CEA = lesser of the prescribed amount and employment income
+  // Non-refundable credit at the federal creditRate
+  // Source: CRA T4032-ON line 10; CRA Line 31260
+
+  function federalCEACredit(grossIncome) {
+    const cea = Math.min(C.federal.cea, grossIncome);
+    return round2(cea * C.federal.creditRate);
+  }
+
   function ontarioCPP1Credit(cpp1) {
     return round2(cpp1 * C.ontario.creditRate);
   }
@@ -161,8 +171,9 @@
     const fedBPACredit = federalBPACredit(grossIncome);
     const fedCPP1Credit = federalCPP1Credit(cppResult.cpp1);
     const fedEICredit = federalEICredit(ei);
+    const fedCEACredit = federalCEACredit(grossIncome);
     const grossFederalTax = fedBracket.totalTax;
-    const federalTax = round2(Math.max(0, grossFederalTax - fedBPACredit - fedCPP1Credit - fedEICredit));
+    const federalTax = round2(Math.max(0, grossFederalTax - fedBPACredit - fedCPP1Credit - fedEICredit - fedCEACredit));
 
     // ── Ontario tax ──
     const onBracket = calcBracketTax(taxableIncome, C.ontario.brackets);
@@ -171,10 +182,22 @@
     const onEICredit = ontarioEICredit(ei);
     const basicOntarioTax = round2(Math.max(0, onBracket.totalTax - onBPACredit - onCPP1Credit - onEICredit));
     const surtax = calcSurtax(basicOntarioTax);
-    const totalOntarioTax = round2(basicOntarioTax + surtax);
-
-    // ── OHP ──
+    const provincialTaxExclOHP = round2(basicOntarioTax + surtax);
     const ohp = calcOHP(grossIncome);
+    // ── Ontario Tax Reduction ──
+    // Source: CRA T4032-ON line 25
+    // Reduction formula uses line 22 (provincial tax + surtax, excluding OHP)
+    // but the reduction is subtracted from line 24 (which includes OHP)
+    // Basic-only (no dependant/disability amounts) per CRA payroll table methodology
+    const taxReductionPersonal = C.ontario.taxReduction.basicAmount;
+    const taxReduction = Math.min(
+      provincialTaxExclOHP,
+      Math.max(0, 2 * taxReductionPersonal - provincialTaxExclOHP)
+    );
+    const totalOntarioTax = round2(provincialTaxExclOHP + ohp - taxReduction);
+
+    // ── OHP ── (already computed above for tax reduction; reuse)
+    // ohp computed before tax reduction
 
     // ── Totals ──
     const totalTax = round2(federalTax + totalOntarioTax);
@@ -204,6 +227,7 @@
       federalBPACredit: federalBPACreditDisplay,
       federalCPP1Credit: fedCPP1Credit,
       federalEICredit: fedEICredit,
+      federalCEACredit: fedCEACredit,
       grossFederalTax: grossFederalTax,
       federalTax: federalTax,
       federalBracketRows: fedBracket.bracketRows,
@@ -217,6 +241,7 @@
       basicOntarioTax: basicOntarioTax,
       surtax: surtax,
       surtaxApplies: surtax > 0,
+      taxReduction: round2(taxReduction),
       totalOntarioTax: totalOntarioTax,
       ontarioBracketRows: onBracket.bracketRows,
       marginalOntarioRate: onBracket.marginalRate,
@@ -260,6 +285,7 @@
     calcSurtax,
     getFederalBPA,
     federalBPACredit,
+    federalCEACredit,
     ontarioBPACredit,
     fmt,
     fmtPct

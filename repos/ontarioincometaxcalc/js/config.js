@@ -49,7 +49,12 @@ const TAX_CONFIG = {
     bpaPhaseoutStart: 181440,
     bpaPhaseoutEnd: 258482,
     // Non-refundable credit rate = lowest bracket rate
-    creditRate: 0.14
+    creditRate: 0.14,
+    // Canada Employment Amount (CEA) — Source: CRA T4032-ON line 10; CRA Line 31260
+    // CEA = lesser of this amount and the individual's employment income for the year
+    // Generates a non-refundable credit at the federal creditRate
+    // Pension income is not eligible (calculator scope is employment income only)
+    cea: 1501
   },
 
   // ── Ontario Provincial Income Tax ─────────────────────────────────────────
@@ -71,6 +76,13 @@ const TAX_CONFIG = {
       rate1: 0.20,
       threshold2: 7446,   // Additional 36% surtax on basic Ontario tax above this
       rate2: 0.36
+    },
+    // Ontario Tax Reduction — Source: CRA T4032-ON line 25
+    // Basic-only implementation matching CRA payroll deduction tables
+    // (Dependant/disability amounts handled at tax-filing time, not payroll)
+    // Reduction = lesser of (i) provincial tax payable and (ii) 2 × personal amounts − provincial tax
+    taxReduction: {
+      basicAmount: 300     // Basic personal amount for tax reduction
     }
   },
 
