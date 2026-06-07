@@ -116,6 +116,9 @@ const TAX_CONFIG = {
     rateAdditional: 0.01,            // CPP1 first additional employee rate
     maxContributionBase: 3519.45,    // CPP1 base max
     maxContributionAdditional: 711.00, // CPP1 first additional max
+    // Backward-compatible aliases for UI display (inline script references)
+    rate1: 0.0595,                   // = rateBase + rateAdditional (combined CPP1 rate)
+    maxContribution1: 4230.45,       // = maxContributionBase + maxContributionAdditional
     rate2: 0.04,             // CPP2 employee rate (on earnings between YMPE and YAMPE)
     maxContribution2: 416.00,
     // Note: CPP base generates a non-refundable tax credit (at federal creditRate and Ontario creditRate)
