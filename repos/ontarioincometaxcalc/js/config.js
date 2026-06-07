@@ -109,11 +109,17 @@ const TAX_CONFIG = {
     basicExemption: 3500,
     ympe: 74600,             // CPP1 ceiling (Year's Maximum Pensionable Earnings)
     yampe: 85000,            // CPP2 ceiling (Year's Additional Maximum Pensionable Earnings)
-    rate1: 0.0595,           // CPP1 employee rate
+    // CPP1 split per CRA T4032-ON:
+    // Base contribution (4.95%) → non-refundable credit only, NOT deducted from taxable income
+    // First additional contribution (1.00%) → deduction from taxable income only, NOT a credit
+    rateBase: 0.0495,                // CPP1 base employee rate
+    rateAdditional: 0.01,            // CPP1 first additional employee rate
+    maxContributionBase: 3519.45,    // CPP1 base max
+    maxContributionAdditional: 711.00, // CPP1 first additional max
     rate2: 0.04,             // CPP2 employee rate (on earnings between YMPE and YAMPE)
-    maxContribution1: 4230.45,
     maxContribution2: 416.00,
-    // Note: CPP1 generates a non-refundable tax credit (at federal creditRate and Ontario creditRate)
+    // Note: CPP base generates a non-refundable tax credit (at federal creditRate and Ontario creditRate)
+    // Note: CPP first additional is a deduction from taxable income only (no credit)
     // Note: CPP2 does NOT generate a non-refundable tax credit
   },
 

@@ -70,12 +70,17 @@
   function calcCPP(grossIncome) {
     const cpp = C.cpp;
     const cpp1Base = Math.max(0, Math.min(grossIncome, cpp.ympe) - cpp.basicExemption);
-    const cpp1 = round2(Math.min(cpp1Base * cpp.rate1, cpp.maxContribution1));
+    // Split CPP1 into base (4.95%) and first additional (1.00%) per CRA T4032-ON
+    // CPP base: non-refundable credit only (not deducted from taxable income)
+    // CPP first additional: deduction from taxable income only (not a credit)
+    const cppBase = round2(Math.min(cpp1Base * cpp.rateBase, cpp.maxContributionBase));
+    const cppAdditional = round2(Math.min(cpp1Base * cpp.rateAdditional, cpp.maxContributionAdditional));
+    const cpp1 = round2(cppBase + cppAdditional);
 
     const cpp2Base = Math.max(0, Math.min(grossIncome, cpp.yampe) - cpp.ympe);
     const cpp2 = round2(Math.min(cpp2Base * cpp.rate2, cpp.maxContribution2));
 
-    return { cpp1, cpp2, total: round2(cpp1 + cpp2) };
+    return { cpp1, cppBase, cppAdditional, cpp2, total: round2(cpp1 + cpp2) };
   }
 
   // ── EI Calculation ────────────────────────────────────────────────────────
@@ -122,11 +127,12 @@
   }
 
   // ── CPP/EI Non-Refundable Credits ─────────────────────────────────────────
-  // CPP1 and EI generate credits at the federal and Ontario lowest bracket rates
+  // CPP base generates credits at the federal and Ontario lowest bracket rates
+  // CPP first additional does NOT generate a non-refundable tax credit (deduction only)
   // CPP2 does NOT generate a non-refundable tax credit
 
-  function federalCPP1Credit(cpp1) {
-    return round2(cpp1 * C.federal.creditRate);
+  function federalCPPBaseCredit(cppBase) {
+    return round2(cppBase * C.federal.creditRate);
   }
 
   function federalEICredit(ei) {
@@ -143,8 +149,8 @@
     return round2(cea * C.federal.creditRate);
   }
 
-  function ontarioCPP1Credit(cpp1) {
-    return round2(cpp1 * C.ontario.creditRate);
+  function ontarioCPPBaseCredit(cppBase) {
+    return round2(cppBase * C.ontario.creditRate);
   }
 
   function ontarioEICredit(ei) {
@@ -163,24 +169,25 @@
     const ei = calcEI(grossIncome);
 
     // ── Taxable income adjustments ──
-    // CPP1 and EI are deductible for income tax purposes (CPP2 is not deductible)
-    const taxableIncome = Math.max(0, grossIncome - cppResult.cpp1 - ei);
+    // CPP first additional and EI are deductible for income tax purposes
+    // CPP base is NOT deductible (credit only); CPP2 is not deductible
+    const taxableIncome = Math.max(0, grossIncome - cppResult.cppAdditional - ei);
 
     // ── Federal tax ──
     const fedBracket = calcBracketTax(taxableIncome, C.federal.brackets);
     const fedBPACredit = federalBPACredit(grossIncome);
-    const fedCPP1Credit = federalCPP1Credit(cppResult.cpp1);
+    const fedCPPBaseCredit = federalCPPBaseCredit(cppResult.cppBase);
     const fedEICredit = federalEICredit(ei);
     const fedCEACredit = federalCEACredit(grossIncome);
     const grossFederalTax = fedBracket.totalTax;
-    const federalTax = round2(Math.max(0, grossFederalTax - fedBPACredit - fedCPP1Credit - fedEICredit - fedCEACredit));
+    const federalTax = round2(Math.max(0, grossFederalTax - fedBPACredit - fedCPPBaseCredit - fedEICredit - fedCEACredit));
 
     // ── Ontario tax ──
     const onBracket = calcBracketTax(taxableIncome, C.ontario.brackets);
     const onBPACredit = ontarioBPACredit();
-    const onCPP1Credit = ontarioCPP1Credit(cppResult.cpp1);
+    const onCPPBaseCredit = ontarioCPPBaseCredit(cppResult.cppBase);
     const onEICredit = ontarioEICredit(ei);
-    const basicOntarioTax = round2(Math.max(0, onBracket.totalTax - onBPACredit - onCPP1Credit - onEICredit));
+    const basicOntarioTax = round2(Math.max(0, onBracket.totalTax - onBPACredit - onCPPBaseCredit - onEICredit));
     const surtax = calcSurtax(basicOntarioTax);
     const provincialTaxExclOHP = round2(basicOntarioTax + surtax);
     const ohp = calcOHP(grossIncome);
@@ -225,7 +232,7 @@
       // federal
       federalBPA: federalBPA,
       federalBPACredit: federalBPACreditDisplay,
-      federalCPP1Credit: fedCPP1Credit,
+      federalCPPBaseCredit: fedCPPBaseCredit,
       federalEICredit: fedEICredit,
       federalCEACredit: fedCEACredit,
       grossFederalTax: grossFederalTax,
@@ -236,7 +243,7 @@
       // ontario
       ontarioBPA: C.ontario.bpa,
       ontarioBPACredit: ontarioBPACreditDisplay,
-      ontarioCPP1Credit: onCPP1Credit,
+      ontarioCPPBaseCredit: onCPPBaseCredit,
       ontarioEICredit: onEICredit,
       basicOntarioTax: basicOntarioTax,
       surtax: surtax,
@@ -250,6 +257,8 @@
       ohp: ohp,
 
       // cpp
+      cppBase: cppResult.cppBase,
+      cppAdditional: cppResult.cppAdditional,
       cpp1: cppResult.cpp1,
       cpp2: cppResult.cpp2,
       cppTotal: cppResult.total,
