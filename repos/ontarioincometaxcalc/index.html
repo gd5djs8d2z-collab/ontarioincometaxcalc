@@ -559,7 +559,7 @@
       var active = b.incomeInBracket > 0;
       return '<tr class="' + (active ? "bracket-active" : "bracket-inactive") + '">' +
         '<td>' + bracketLabel + '</td>' +
-        '<td>' + (b.rate * 100).toFixed(1) + '%</td>' +
+        '<td>' + (b.rate * 100).toFixed(2) + '%</td>' +
         '<td>' + (active ? fmtDollar(b.incomeInBracket) : '—') + '</td>' +
         '<td>' + (active ? fmtDollar(b.taxInBracket) : '$0.00') + '</td>' +
         '<td>' + fmtDollar(b.cumulative) + '</td>' +
