@@ -288,7 +288,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   pointer-events: none;
   font-family: 'IBM Plex Mono', monospace;
 }
-.input-group .input-wrap-dollar input {
+.input-group .input-wrap-dollar input[type="number"] {
   padding-left: 28px;
 }
 .input-group input[type="number"],
