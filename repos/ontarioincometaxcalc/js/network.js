@@ -3,12 +3,13 @@
 (function() {
   var tools = [
     { name: 'Ontario Take-Home Pay Calculator', url: 'https://ontariotakehomecalc.ca/', desc: 'Net pay after all deductions' },
+    { name: 'Ontario Bonus Tax Calculator', url: 'https://ontariobonustaxcalc.ca/', desc: 'Tax on bonus/lump-sum payments' },
     { name: 'Ontario Raise Calculator', url: 'https://ontarioraisecalc.ca/', desc: 'Tax impact of a salary increase' },
-    { name: 'Marginal Tax Calculator', url: 'https://marginaltaxcalc.ca/', desc: 'Marginal vs effective rate comparison' },
-    { name: 'CPP Calculator', url: 'https://cppcalc.ca/', desc: 'CPP1 + CPP2 contribution breakdown' },
-    { name: 'EI Calculator', url: 'https://eicalc.ca/', desc: 'EI premium calculation' },
-    { name: 'Commission Tax Calculator', url: 'https://ontariocommissiontaxcalc.ca/', desc: 'Tax on commission payments' },
-    { name: 'Bonus Tax Calculator', url: 'https://bonustaxcalc.ca/', desc: 'Tax on bonus/lump-sum payments' }
+    { name: 'Ontario Marginal Tax Calculator', url: 'https://marginaltaxcalc.ca/', desc: 'Marginal vs effective rate comparison' },
+    { name: 'Ontario Commission Tax Calculator', url: 'https://ontariocommissiontaxcalc.ca/', desc: 'Tax on commission payments' },
+    { name: 'Ontario Severance Pay Calculator', url: 'https://ontarioseverancepaycalc.ca/', desc: 'Severance pay tax estimate' },
+    { name: 'Ontario Termination Pay Calculator', url: 'https://ontarioterminationpaycalc.ca/', desc: 'Termination pay tax estimate' },
+    { name: 'Ontario Self-Employed Tax Calculator', url: 'https://ontarioselfemployedtaxcalc.ca/', desc: 'Self-employment tax estimate' }
   ];
 
   var container = document.getElementById('related-tools');
