@@ -62,30 +62,9 @@
 <div class="page-body">
 
   <h2>Get in Touch</h2>
-  <p>Use the form below to send us a message. We aim to respond within 2–3 business days. For general questions about Ontario tax rules, CPP, or EI, you may also find answers in our <a href="faq.html">FAQ</a>.</p>
+  <p>For partnership inquiries, calculator corrections, or general feedback, please email <a href="mailto:partnerships@calc-hq.ca" style="font-weight:600;">partnerships@calc-hq.ca</a>. We aim to review messages within 2–3 business days.</p>
 
-  <div class="info-box" style="margin-bottom:24px">
-    <p style="margin:0"><strong>Partnership inquiries:</strong> <a href="mailto:partnerships@calc-hq.ca" style="color:inherit;font-weight:600;">partnerships@calc-hq.ca</a></p>
-  </div>
-  <form class="contact-form" name="contact" onsubmit="handleContactSubmit(event)">
-    <div>
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" placeholder="Jane Smith" required>
-    </div>
-    <div>
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="jane@example.com" required>
-    </div>
-    <div>
-      <label for="subject">Subject</label>
-      <input type="text" id="subject" name="subject" placeholder="e.g. Rate correction, question about CPP2">
-    </div>
-    <div>
-      <label for="message">Message</label>
-      <textarea id="message" name="message" placeholder="Your message..." required></textarea>
-    </div>
-    <button type="submit" class="calc-btn">Send Message</button>
-  </form>
+  <p>You may also find answers to common Ontario tax questions in our <a href="faq.html">FAQ</a>.</p>
 
   <h2>What We Can Help With</h2>
   <ul>
@@ -139,16 +118,7 @@
 </footer>
 
 
-<script>
-function handleContactSubmit(e) {
-  e.preventDefault();
-  var form = e.target;
-  var btn = form.querySelector('button[type="submit"]');
-  btn.textContent = 'Message Sent';
-  btn.disabled = true;
-  form.reset();
-}
-</script>
+
 <script src="js/network.js"></script>
 <script src="js/ads.js"></script>
 <script>
