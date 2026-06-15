@@ -156,30 +156,30 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!-- ── Section 3: Bracket Breakdown Tables ── -->
-  <section class="authority-section" id="bracket-breakdown">
-    <div class="section-header">
-      <div class="section-number">3</div>
-      <h2>How Your Income Is Taxed, Bracket by Bracket</h2>
-    </div>
-    <p>Each bracket applies only to the income that falls within its range. No income is retroactively taxed at a higher rate when you cross a threshold.</p>
+  <!-- Hidden JS targets (calculator script writes to these IDs) -->
+  <div style="display:none">
+    <div id="bracket-tables-container"></div>
+    <div id="marginal-effective-content"></div>
+    <span id="surtax-income-approx"></span>
+    <span id="rate-change-note"></span>
+    <span id="surtax-faq-income"></span>
+    <span id="last-updated"></span>
+    <div id="example-60k-table"></div>
+    <div id="example-110k-table"></div>
+    <div id="example-185k-table"></div>
+  </div>
 
-    <div id="bracket-tables-container">
-      <div class="bracket-placeholder">Enter your income above to see your personal bracket breakdown.</div>
-    </div>
-  </section>
+  <!-- What This Calculator Does -->
+  <div class="authority-section">
+    <h2>What This Calculator Does</h2>
+    <p>This calculator estimates your Ontario income tax for the 2026 tax year. Enter your annual gross employment income, and it computes each deduction step by step. Federal income tax is calculated using CRA progressive brackets ranging from 14% to 33%, with the basic personal amount applied as a non-refundable credit. Ontario provincial income tax applies brackets from 5.05% to 13.16%, and the Ontario surtax is added when your basic provincial tax exceeds the first surtax threshold. Canada Pension Plan contributions are calculated under both CPP1 (5.95% on pensionable earnings between $3,500 and $74,600) and CPP2 (4.00% on earnings between $74,600 and $85,000). Employment Insurance premiums are set at 1.63% on insurable earnings up to the annual maximum of $68,900. The Ontario Health Premium is applied based on taxable income tiers. Ontario's basic personal amount is also applied as a non-refundable credit. Results display your federal tax, Ontario tax with surtax, total deductions, net income, effective tax rate, and marginal rates so you can understand exactly how your income is taxed.</p>
+  </div>
 
-  <!-- ── Section 4: Marginal vs Effective ── -->
-  <section class="authority-section" id="marginal-vs-effective">
-    <div class="section-header">
-      <div class="section-number">4</div>
-      <h2>Your Marginal Rate vs Your Effective Rate</h2>
-    </div>
-    <div id="marginal-effective-content">
-      <p>Your <strong>marginal rate</strong> is the rate on the next dollar you earn. Your <strong>effective rate</strong> is the average rate across your entire income. These are always different — and confusing them is the most common tax misconception in Canada.</p>
-      <p>Enter your income above to see both rates calculated from your actual numbers.</p>
-    </div>
-  </section>
+  <!-- What Is Not Included -->
+  <div class="authority-section">
+    <h2>What Is Not Included</h2>
+    <p>Results are estimates for a typical Ontario employee with a single employer and may not reflect your actual tax obligation. This calculator does not account for RRSP contributions that reduce taxable income, childcare expense deductions, union dues, registered pension plan contributions, or other workplace deductions. It also does not include charitable donation credits, tuition or medical expense credits, spousal or dependent amounts, the Canada Workers Benefit, disability credits, or other individual tax credits that may lower your tax bill. Investment income such as eligible or non-eligible dividends, capital gains, and rental income are not handled. Self-employment income and non-standard pay arrangements are also outside scope. If you have multiple income sources, variable compensation, or situation-specific deductions, your actual tax will differ from the estimate shown. For detailed questions about tax brackets, the Ontario surtax, the Health Premium, how raises and overtime affect your tax, and other payroll topics, see the <a href="faq.html">FAQ</a>. For precise calculations, consult a tax professional or use the CRA Payroll Deductions Online Calculator.</p>
+  </div>
 
   <!-- Ad unit -->
   <div class="ad-unit ad-inactive" aria-hidden="true">
@@ -189,49 +189,11 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!-- ── Section 5: Ontario Surtax & Health Premium (concept only) ── -->
-  <section class="authority-section" id="ontario-tax-explained">
-    <div class="section-header">
-      <div class="section-number">5</div>
-      <h2>Ontario Surtax and Health Premium</h2>
-    </div>
-
-    <h3>The Ontario surtax</h3>
-    <p>The Ontario surtax is an additional levy on your basic Ontario tax — not on your income. It only applies once your provincial tax exceeds a threshold. Most Ontario earners below $80,000 pay zero surtax. See your results above for whether it applies at your income.</p>
-
-    <h3>The Ontario Health Premium</h3>
-    <p>The OHP is collected at tax filing time — it does not appear as a line on your paycheque. It applies to Ontario residents with taxable income over $20,000, ranging from $300 to a maximum of $900 above $200,600.</p>
-
-    <!-- Hidden spans for JS compatibility (inline script writes to these IDs) -->
-    <span id="surtax-income-approx" style="display:none"></span>
-    <span id="rate-change-note" style="display:none"></span>
-    <span id="surtax-faq-income" style="display:none"></span>
-    <span id="last-updated" style="display:none"></span>
-
-    <p class="source-cite">Source: <a href="https://www.ontario.ca/page/ontario-health-premium" target="_blank" rel="noopener noreferrer">ontario.ca — Ontario Health Premium</a> · <a href="https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032on-jan/t4032on-january-general-information.html" target="_blank" rel="noopener noreferrer">CRA T4032-ON</a></p>
-  </section>
-
-
-
-  <!-- ── Section 7: Why Your Taxes Changed ── -->
-  <section class="authority-section" id="why-taxes-changed">
-    <div class="section-header">
-      <div class="section-number">6</div>
-      <h2>Why Did My Tax Go Up? The Raise and Overtime Questions</h2>
-    </div>
-
-    <h3>You got a raise — only the new portion is taxed more</h3>
-    <p>When your income crosses a bracket threshold, the higher rate applies only to the dollars above that threshold. Your existing income is never retroactively taxed at the new rate.</p>
-    <p>Example: Your salary increases from $58,000 to $65,000. You crossed the federal second bracket at <span class="config-val" data-key="fedBracket2Min"></span>. Only the <span class="config-val" data-key="crossoverAmount"></span> above that threshold is taxed at 20.5% — the rest stays at 14%. Your take-home pay increases with every dollar of the raise.</p>
-
-    <h3>Overtime pay looks over-taxed on the cheque</h3>
-    <p>Payroll software calculates source deductions by annualizing each pay period. If you earn a week of overtime, the software treats it as if you earn that amount every week — inflating the projected annual income and withholding at a higher rate. At year-end, the actual rate is correct. You typically receive a refund if overtime was a one-time event.</p>
-
-    <h3>A raise never reduces your take-home pay</h3>
-    <p>No bracket crossing makes your net income decrease. The highest-bracket rate applies only to the marginal dollars. Every dollar of gross income always adds to net income — the rate increases, but never by more than 100% of the increment.</p>
-  </section>
-
-
+  <!-- Example Calculation -->
+  <div class="authority-section">
+    <h2>Example: $110,000 Annual Salary</h2>
+    <p>For an Ontario employee earning $110,000 gross, using 2026 rates, this income enters the third federal bracket and triggers the first Ontario surtax tier. The Ontario Health Premium applies at the $300 level. After federal tax, Ontario tax with surtax, CPP1, CPP2, EI, and OHP, the estimated net income is approximately $77,570 with an effective combined rate around 29.5%. At this income level, the marginal federal rate is 20.5% and the marginal Ontario rate including surtax is noticeably higher than the base 9.15% bracket. Your actual result will vary based on pay structure and applicable credits. Enter your income in the calculator above for a personalized breakdown of every bracket and deduction.</p>
+  </div>
 
   <!-- Ad unit -->
   <div class="ad-unit ad-inactive" aria-hidden="true">
@@ -240,63 +202,10 @@
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
   </div>
-
-  <!-- ── Section 9: Example Calculations ── -->
-  <section class="authority-section" id="example-calculations">
-    <div class="section-header">
-      <div class="section-number">7</div>
-      <h2>Three Real Tax Calculations</h2>
-    </div>
-
-    <!-- Example 1 -->
-    <div class="example-block" id="example-60k">
-      <h3>$60,000 — First-time filer, marketing coordinator, Toronto</h3>
-      <p>At $60,000, your income crosses into the second federal bracket mid-year but stays in the first Ontario bracket. The defining feature of this income level: most of the salary is taxed at the 14% federal rate, not the 20.5% rate that applies only to the $1,477 above the first federal bracket threshold.</p>
-      <div id="example-60k-table"></div>
-    </div>
-
-    <!-- Example 2 -->
-    <div class="example-block" id="example-110k">
-      <h3>$110,000 — Senior professional, project manager, Ottawa</h3>
-      <p>At $110,000, two things happen that don't apply at $60,000: the income enters the third federal bracket (<span class="config-val" data-key="fedBracket3Label"></span>) for a portion, and the basic Ontario tax crosses the first surtax threshold, triggering the 20% Ontario surtax on that excess. The combined effect makes the effective rate jump noticeably compared to $100,000.</p>
-      <div id="example-110k-table"></div>
-    </div>
-
-    <!-- Example 3 -->
-    <div class="example-block" id="example-185k">
-      <h3>$185,000 — Executive, VP Operations, Mississauga</h3>
-      <p>At $185,000, the federal 29% bracket applies to the portion of income — after CPP and EI — that exceeds <span class="config-val" data-key="fedBracket4Min"></span>. The Ontario surtax applies fully at both tiers. OHP reaches <span class="config-val" data-key="ohpAt185k"></span>. The federal BPA begins its phase-down above <span class="config-val" data-key="bpaPhaseoutStart"></span>.</p>
-      <div id="example-185k-table"></div>
-    </div>
-  </section>
-
-  <!-- ── Section 9: Limitations & Methodology Link ── -->
-  <section class="authority-section" id="limitations">
-    <div class="section-header">
-      <div class="section-number">8</div>
-      <h2>Limitations</h2>
-    </div>
-
-    <p>This calculator estimates income tax on employment income only. It does not account for: RRSP contributions, childcare deductions, union dues, eligible/non-eligible dividends, capital gains, rental income, self-employment income, or provincial tax credits beyond the BPA and CPP/EI credits. Results are estimates — not official CRA determinations.</p>
-
-    <p>For detailed questions, see the <a href="faq.html">FAQ page</a>.</p>
-  </section>
-
-  <!-- Ad unit -->
-  <div class="ad-unit ad-inactive" aria-hidden="true">
-    <ins class="adsbygoogle"
-         data-ad-client="ca-pub-7744853829365165"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-  </div>
-
-
 
 </main>
 
-<div class="info-box" style="max-width:960px;margin:0 auto 20px;padding:12px 20px;font-size:0.875rem;">
-  <a href="https://calc-hq.ca/methodology/ontario-income-tax/">Full methodology: Ontario Income Tax Calculator – Calc-HQ.ca</a>
-</div>
+<p><a href="https://calc-hq.ca/methodology/ontario-income-tax/">Full methodology: Ontario Income Tax Calculator – Calc-HQ.ca</a></p>
 
 <!-- ── Footer ── -->
 <footer class="site-footer">
